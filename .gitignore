@@ -400,3 +400,4 @@ FodyWeavers.xsd
 bin
 appsettings.json
 *.db
+.DS_Store
