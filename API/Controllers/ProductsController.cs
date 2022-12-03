@@ -1,7 +1,5 @@
-using Infrastructure.Data;
 using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Core.Interfaces;
 using Core.Specifications;
 using API.Dtos;
@@ -29,9 +27,9 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts()
+        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts(string sort)
         {
-            var spec = new ProductsWithTypesAndBrandsSpecification();
+            var spec = new ProductsWithTypesAndBrandsSpecification(sort);
             var products = await _productsRepo.ListAsync(spec);
             return Ok(_mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products));
         }
@@ -55,17 +53,15 @@ namespace API.Controllers
         [HttpGet("brands")]
         public async Task<ActionResult<List<ProductBrand>>> GetProductBrands()
         {
-            var spec = new ProductsWithTypesAndBrandsSpecification();
-            var products = await _productsRepo.ListAsync(spec);
-            return Ok(products);
+            var result = await _productBrandRepo.ListAllAsync();
+            return Ok(result);
         }
 
         [HttpGet("types")]
         public async Task<ActionResult<List<ProductType>>> GetProductTypes()
         {
-            var spec = new ProductsWithTypesAndBrandsSpecification();
-            var products = await _productsRepo.ListAsync(spec);
-            return Ok(products);
+            var result = await _productTypeRepo.ListAllAsync();
+            return Ok(result);
         }
     }
 }
