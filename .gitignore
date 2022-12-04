@@ -401,3 +401,5 @@ bin
 appsettings.json
 *.db
 .DS_Store
+API/ski_shop.db-shm
+API/ski_shop.db-wal
