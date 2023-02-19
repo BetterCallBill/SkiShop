@@ -1,0 +1,74 @@
+<nav
+  class="navbar navbar-light bg-white border-bottom shadow-sm fixed-top d-flex align-items-center justify-content-between"
+>
+  <img
+    src="/assets/images/logo.png"
+    style="max-height: 70px"
+    alt="logo"
+    routerLink="/"
+    class="logo"
+  />
+
+  <div class="text-uppercase" style="font-size: larger">
+    <a> Home </a>
+    <a routerLink="/shop" routerLinkActive="active" class="p-2">Shop</a>
+    <a routerLink="/test-error" routerLinkActive="active" class="p-2">Errors</a>
+  </div>
+
+  <div class="d-flex align-items-center">
+    <a routerLink="/basket" class="position-relative">
+      <div *ngIf="" class="cart-no">
+        {{ basket.items.length }}
+      </div>
+    </a>
+    <ng-container *ngIf="">
+      <button
+        routerLink="/account/login"
+        class="btn btn-outline-success my-2 my-sm-0 mr-2"
+      >
+        Login
+      </button>
+      <button
+        routerLink="/account/register"
+        class="btn btn-outline-success my-2 my-sm-0 mr-3"
+      >
+        Sign up
+      </button>
+    </ng-container>
+    <ng-container *ngIf="">
+      <div class="dropdown ml-3 mr-5" dropdown>
+        <a class="dropdown-toggle" style="cursor: pointer" dropdownToggle>
+          <strong>Welcome {{ (currentUser$ | async).displayName }}</strong>
+        </a>
+        <div
+          class="dropdown-menu dropdown-menu-right"
+          style="cursor: pointer"
+          *dropdownMenu
+        >
+          <a
+            routerLink="/basket"
+            class="dropdown-item d-flex align-items-center py-2"
+          >
+            <fa-icon [icon]="faShoppingCart" class="mr-3"></fa-icon>
+            View Basket
+          </a>
+          <a
+            routerLink="/orders"
+            class="dropdown-item d-flex align-items-center py-2"
+          >
+            <fa-icon [icon]="faHistory" class="mr-3"></fa-icon>
+            View Orders
+          </a>
+          <div class="dropdown-divider"></div>
+          <a
+            (click)="logout()"
+            class="dropdown-item d-flex align-items-center py-2"
+          >
+            <fa-icon [icon]="faSignOutAlt" class="mr-3"></fa-icon>
+            Logout
+          </a>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</nav>
