@@ -1,28 +1,12 @@
 <nav
-  class="navbar navbar-light bg-white border-bottom shadow-sm fixed-top d-flex align-items-center justify-content-between"
->
-  <img
-    src="/assets/images/logo.png"
-    style="max-height: 70px"
-    alt="logo"
-    routerLink="/"
-    class="logo"
-  />
+  class="navbar navbar-light bg-white border-bottom shadow-sm fixed-top d-flex align-items-center justify-content-between">
+  <img src="/assets/images/logo.png" style="max-height: 70px" alt="logo" routerLink="/" class="logo" />
 
   <div class="text-uppercase" style="font-size: larger">
-    <a
-      class="p-2"
-      [routerLink]="['/']"
-      routerLinkActive="router-link-active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      >Home</a
-    >
-    <a class="p-2" routerLink="/shop" routerLinkActive="router-link-active"
-      >Shop</a
-    >
-    <a class="p-2" routerLink="/contact" routerLinkActive="router-link-active"
-      >Contact</a
-    >
+    <a class="p-2" [routerLink]="['/']" routerLinkActive="router-link-active"
+      [routerLinkActiveOptions]="{ exact: true }">Home</a>
+    <a class="p-2" routerLink="/shop" routerLinkActive="router-link-active">Shop</a>
+    <a class="p-2" routerLink="/test-error" routerLinkActive="router-link-active">Errors</a>
   </div>
 
   <div class="d-flex align-items-center">
@@ -32,16 +16,10 @@
       </div>
     </a>
     <ng-container *ngIf="">
-      <button
-        routerLink="/account/login"
-        class="btn btn-outline-success my-2 my-sm-0 mr-2"
-      >
+      <button routerLink="/account/login" class="btn btn-outline-success my-2 my-sm-0 mr-2">
         Login
       </button>
-      <button
-        routerLink="/account/register"
-        class="btn btn-outline-success my-2 my-sm-0 mr-3"
-      >
+      <button routerLink="/account/register" class="btn btn-outline-success my-2 my-sm-0 mr-3">
         Sign up
       </button>
     </ng-container>
@@ -50,30 +28,17 @@
         <a class="dropdown-toggle" style="cursor: pointer" dropdownToggle>
           <strong>Welcome {{ (currentUser$ | async).displayName }}</strong>
         </a>
-        <div
-          class="dropdown-menu dropdown-menu-right"
-          style="cursor: pointer"
-          *dropdownMenu
-        >
-          <a
-            routerLink="/basket"
-            class="dropdown-item d-flex align-items-center py-2"
-          >
+        <div class="dropdown-menu dropdown-menu-right" style="cursor: pointer" *dropdownMenu>
+          <a routerLink="/basket" class="dropdown-item d-flex align-items-center py-2">
             <fa-icon [icon]="faShoppingCart" class="mr-3"></fa-icon>
             View Basket
           </a>
-          <a
-            routerLink="/orders"
-            class="dropdown-item d-flex align-items-center py-2"
-          >
+          <a routerLink="/orders" class="dropdown-item d-flex align-items-center py-2">
             <fa-icon [icon]="faHistory" class="mr-3"></fa-icon>
             View Orders
           </a>
           <div class="dropdown-divider"></div>
-          <a
-            (click)="logout()"
-            class="dropdown-item d-flex align-items-center py-2"
-          >
+          <a (click)="logout()" class="dropdown-item d-flex align-items-center py-2">
             <fa-icon [icon]="faSignOutAlt" class="mr-3"></fa-icon>
             Logout
           </a>
