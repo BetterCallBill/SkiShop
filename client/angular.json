@@ -19,7 +19,7 @@
           "options": {
             "outputPath": "dist/client",
             "index": "src/index.html",
-            "main": "src/main.ts",
+                "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -29,6 +29,7 @@
               "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
               "./node_modules/font-awesome/css/font-awesome.min.css",
               "./node_modules/ngx-toastr/toastr.css",
+              "./node_modules/bootswatch/dist/theme/united/bootstrap.min.css",
               "src/styles.scss"
             ],
             "scripts": []
