@@ -400,6 +400,7 @@ FodyWeavers.xsd
 bin
 appsettings.json
 *.db
+*.rdb
 .DS_Store
 API/ski_shop.db-shm
 API/ski_shop.db-wal
