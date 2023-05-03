@@ -4,6 +4,7 @@ namespace API.Dtos
 {
     public class AddressDto
     {
+        // [Required] => data annotation
         [Required]
         public string FirstName { get; set; }
 

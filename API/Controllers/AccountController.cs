@@ -57,9 +57,9 @@ namespace API.Controllers
                 return new BadRequestObjectResult(new ApiValidationErrorResponse
                 {
                     Errors = new[]
-                {
-                    "Email address is in use"
-                }
+                    {
+                        "Email address is in use"
+                    }
                 });
             };
 
