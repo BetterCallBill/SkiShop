@@ -16,7 +16,7 @@
         {{ basket.items.length }}
       </div>
     </a>
-    <ng-container *ngIf="">
+    <ng-container *ngIf="(currentUser$ | async) === null">
       <button routerLink="/account/login" class="btn btn-outline-success my-2 my-sm-0 mr-2">
         Login
       </button>
@@ -24,7 +24,7 @@
         Sign up
       </button>
     </ng-container>
-    <ng-container *ngIf="">
+    <ng-container *ngIf="(currentUser$ | async)">
       <div class="dropdown ml-3 mr-5" dropdown>
         <a class="dropdown-toggle" style="cursor: pointer" dropdownToggle>
           <strong>Welcome {{ (currentUser$ | async).displayName }}</strong>

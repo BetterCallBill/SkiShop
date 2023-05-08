@@ -3,7 +3,7 @@ import { IBrand } from '../shared/models/brand';
 import { IProduct } from '../shared/models/product';
 import { IType } from '../shared/models/productType';
 import { ShopService } from './shop.service';
-import { ShopParams } from '../shared/models/shopParams';
+import { ShopParams } from '../shared/models/shopParams.ts';
 
 @Component({
   selector: 'app-shop',
@@ -23,7 +23,7 @@ export class ShopComponent implements OnInit {
     { name: 'Price: High to Low', value: 'priceDesc' },
   ];
 
-  constructor(private shopService: ShopService) {}
+  constructor(private shopService: ShopService) { }
 
   ngOnInit(): void {
     // Initialize the data
