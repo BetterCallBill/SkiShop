@@ -26,7 +26,7 @@ namespace Core.Specifications
 
         public bool IsPagingEnabled { get; private set; }
 
-        protected void AddIncludes(Expression<Func<T, object>> includeExpression)
+        protected void AddInclude(Expression<Func<T, object>> includeExpression)
         {
             Includes.Add(includeExpression);
         }
@@ -36,7 +36,7 @@ namespace Core.Specifications
             OrderBy = orderByExpression;
         }
         
-        protected void AddOrderbyDescending(Expression<Func<T, object>> orderByDescExpression)
+        protected void AddOrderByDescending(Expression<Func<T, object>> orderByDescExpression)
         {
             OrderByDescending = orderByDescExpression;
         }

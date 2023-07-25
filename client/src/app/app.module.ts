@@ -7,14 +7,12 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { HomeModule } from './home/home.module';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
-import { SectionHeaderComponent } from './section-header/section-header.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingIntercepetor } from './core/interceptors/loading.interceptors';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    SectionHeaderComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,

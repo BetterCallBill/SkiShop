@@ -1,5 +1,7 @@
+using System.Reflection;
 using System.Text.Json;
 using Core.Entities;
+using Core.Entities.OrderAggregate;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Data
@@ -10,6 +12,8 @@ namespace Infrastructure.Data
         {
             try
             {
+                var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                
                 if (!storeContext.ProductBrands.Any())
                 {
                     // Read JSON data file
@@ -56,6 +60,20 @@ namespace Infrastructure.Data
                     foreach (var product in products)
                     {
                         storeContext.Products.Add(product);
+                    }
+
+                    await storeContext.SaveChangesAsync();
+                }
+                
+                if (!storeContext.DeliveryMethods.Any())
+                {
+                    var dmData = File.ReadAllText(path + @"/Data/SeedData/delivery.json");
+
+                    var methods = JsonSerializer.Deserialize<List<DeliveryMethod>>(dmData);
+
+                    foreach (var item in methods)
+                    {
+                        storeContext.DeliveryMethods.Add(item);
                     }
 
                     await storeContext.SaveChangesAsync();

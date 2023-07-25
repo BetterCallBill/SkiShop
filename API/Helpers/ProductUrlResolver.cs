@@ -4,6 +4,7 @@ using Core.Entities;
 
 namespace API.Helpers
 {
+    // AutoMapper.IValueResolver
     public class ProductUrlResolver : IValueResolver<Product, ProductToReturnDto, string>
     {
         private readonly IConfiguration _config;

@@ -7,100 +7,15 @@
       <div class="container">
         <div class="row">
           <div class="col-12 py-5 mb-1">
-            <div class="table-responsive">
-              <table class="table table-borderless">
-                <thead class="border-0 py-2">
-                  <tr>
-                    <th scope="col">
-                      <div class="p-2 px-3 text-uppercase">Product</div>
-                    </th>
-                    <th scope="col">
-                      <div class="py-2 text-uppercase">Price</div>
-                    </th>
-                    <th scope="col">
-                      <div class="py-2 text-uppercase">Quantity</div>
-                    </th>
-                    <th scope="col">
-                      <div class="py-2 text-uppercase">Total</div>
-                    </th>
-                    <th class="border-0" scope="col">
-                      <div class="py-2 text-uppercase">Remove</div>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of items" class="border-0">
-                    <td scope="row">
-                      <div class="p-2">
-                        <img src="{{ item.pictureUrl }}" alt="{{ item.productName }}" class="img-fluid"
-                          style="max-height: 50px" />
-                        <div class="ml-3 d-inline-block align-middle">
-                          <h5 class="mb-0">
-                            <a routerLink="/shop/{{ item.id || item.productId }}" class="text-dark">
-                              {{ item.productName }}
-                            </a>
-                            <span *ngIf="item.type" class="text-muted font-weight-normal font-italic d-block">
-                              Type: {{ item.type }}
-                            </span>
-                          </h5>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="align-middle">
-                      <strong>{{ item.price | currency }}</strong>
-                    </td>
-                    <td class="align-middle">
-                      <div class="d-flex align-items-center">
-                        <fa-icon (click)="decrementItemQuantity(item)" [icon]="faMinusCircle"
-                          style="cursor: pointer" class="text-warning mr-2"></fa-icon>
-                        <span class="font-weight-bold" style="font-size: 1.5em">
-                          {{ item.quantity }}
-                        </span>
-                        <fa-icon (click)="incrementItemQuantity(item)" [icon]="faPlusCircle"
-                          style="cursor: pointer" class="text-warning mx-2"></fa-icon>
-                      </div>
-                    </td>
-                    <td class="align-middle">
-                      <strong>
-                        {{ item.price * item.quantity | currency }}
-                      </strong>
-                    </td>
-                    <td class="align-middle text-center">
-                      <fa-icon (click)="removeBasketItem(item)" [icon]="faTrashAlt"
-                        style="cursor: pointer; font-size: 2em" class="text-danger"></fa-icon>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <app-basket-summary (decrement)="decrementItemQuantity($event)" (increment)="incrementItemQuantity($event)"
+              (remove)="removeBasketItem($event)" [items]="basket.items"></app-basket-summary>
           </div>
         </div>
 
         <div class="row">
           <div class="col-6 offset-6">
-            <div class="bg-light px-4 text-uppercase font-weight-bold" style="padding: 1.2em">
-              Order Summary
-            </div>
-            <div class="p-4">
-              <p class="font-italic mb-4">
-                Shipping costs will be added depending on choices made during checkout
-              </p>
-              <ul class="list-unstyled mb-4">
-                <li class="d-flex justify-content-between py-3 border-bottom">
-                  <strong class="text-muted">Order subtotal</strong>
-                  <strong>{(basketTotal$ | async).subtotal}}</strong>
-                </li>
-                <li class="d-flex justify-content-between py-3 border-bottom">
-                  <strong class="text-muted">Shipping and handling</strong>
-                  <strong>{(basketTotal$ | async).shipping}}</strong>
-                </li>
-                <li class="d-flex justify-content-between py-3 border-bottom">
-                  <strong class="text-muted">Total</strong>
-                  <strong>{(basketTotal$ | async).total}}</strong>
-                </li>
-              </ul>
-            </div>
-
+            <app-order-totals *ngIf="basketTotal$ | async as basketTotal" [shippingPrice]="basketTotal.shipping"
+              [subtotal]="basketTotal.subtotal" [total]="basketTotal.total"></app-order-totals>
             <a routerLink="/checkout" class="btn btn-outline-primary py-2 btn-block">
               Proceed to checkout
             </a>
