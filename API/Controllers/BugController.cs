@@ -7,11 +7,9 @@ namespace API.Controllers
 {
     public class BugController : BaseApiController
     {
-        private readonly StoreContext _storeContext;
 
-        public BugController(StoreContext storeContext)
+        public BugController()
         {
-            _storeContext = storeContext;
         }
 
         [HttpGet("testauth")]

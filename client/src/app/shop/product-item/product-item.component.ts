@@ -1,20 +1,19 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { BasketService } from 'src/app/basket/basket.service';
 import { IProduct } from 'src/app/shared/models/product';
+import { BasketService } from 'src/app/basket/basket.service';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-product-item',
   templateUrl: './product-item.component.html',
-  styleUrls: ['./product-item.component.scss']
+  styleUrls: ['./product-item.component.scss'],
 })
 export class ProductItemComponent implements OnInit {
-  // To receive an input property from its parent 
   @Input() product: IProduct;
-  
-  constructor(private basketService: BasketService) { }
+  faShoppingCart = faShoppingCart;
+  constructor(private basketService: BasketService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   addItemToBasket() {
     this.basketService.addItemToBasket(this.product);

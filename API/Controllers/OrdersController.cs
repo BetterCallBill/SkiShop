@@ -16,20 +16,13 @@ using Microsoft.Extensions.Logging;
 namespace API.Controllers
 {
     [Authorize]
-    [Route("[controller]")]
     public class OrdersController : BaseApiController
     {
-        private readonly ILogger<OrdersController> _logger;
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
 
-        public OrdersController(
-            ILogger<OrdersController> logger,
-            IOrderService orderService,
-            IMapper mapper
-        )
+        public OrdersController(IOrderService orderService, IMapper mapper)
         {
-            _logger = logger;
             _orderService = orderService;
             _mapper = mapper;
         }
@@ -69,7 +62,8 @@ namespace API.Controllers
         [HttpGet("deliveryMethods")]
         public async Task<ActionResult<IReadOnlyList<DeliveryMethod>>> GetDeliveryMethods()
         {
-            return Ok(await _orderService.GetDeliveryMethodsAsync());
+            var result = await _orderService.GetDeliveryMethodsAsync();
+            return Ok(result);
         }
     }
 }

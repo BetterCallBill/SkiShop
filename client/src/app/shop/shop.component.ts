@@ -4,6 +4,7 @@ import { IProduct } from '../shared/models/product';
 import { IType } from '../shared/models/productType';
 import { ShopService } from './shop.service';
 import { ShopParams } from '../shared/models/shopParams';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-shop',
@@ -13,6 +14,7 @@ import { ShopParams } from '../shared/models/shopParams';
 export class ShopComponent implements OnInit {
   @ViewChild('search', { static: false }) searchTerm: ElementRef;
   products: IProduct[];
+  productsSub: Subscription;
   brands: IBrand[];
   types: IType[];
   shopParams = new ShopParams();
@@ -23,7 +25,7 @@ export class ShopComponent implements OnInit {
     { name: 'Price: High to Low', value: 'priceDesc' },
   ];
 
-  constructor(private shopService: ShopService) { 
+  constructor(private shopService: ShopService) {
     this.shopParams = this.shopService.getShopParams();
   }
 
@@ -34,12 +36,11 @@ export class ShopComponent implements OnInit {
     this.getTypes();
   }
 
-  getProducts() {
-    this.shopService.getProducts(this.shopParams).subscribe(
+  getProducts(useCache = false) {
+    this.productsSub = this.shopService.getProducts(useCache).subscribe(
       (response) => {
+        console.log("response ====> ", response)
         this.products = response.data;
-        this.shopParams.pageNumber = response.pageIndex;
-        this.shopParams.pageSize = response.pageSize;
         this.totalCount = response.count;
       },
       (error) => {

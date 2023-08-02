@@ -19,7 +19,7 @@ export class BasketService {
   constructor(private http: HttpClient) {}
 
   getBasket(id: string) {
-    return this.http.get(this.baseUrl + 'basket?id=' + id).pipe(
+    return this.http.get<IBasket>(`${this.baseUrl}/basket?id=${id}`).pipe(
       map((basket: IBasket) => {
         this.basketSource.next(basket);
         this._calculateTotals();
@@ -28,7 +28,7 @@ export class BasketService {
   }
   
   setBasket(basket: Basket) {
-    return this.http.post(this.baseUrl + 'basket', basket).subscribe((response: IBasket) => {
+    return this.http.post<IBasket>(`${this.baseUrl}/basket`, basket).subscribe((response: IBasket) => {
       this.basketSource.next(response);
       this._calculateTotals();
     }, error => {

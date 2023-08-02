@@ -7,25 +7,21 @@ namespace Infrastructure.Data
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
-        private readonly StoreContext _storeContext;
+        private readonly StoreContext _context;
 
-        public GenericRepository(StoreContext storeContext)
+        public GenericRepository(StoreContext context)
         {
-            _storeContext = storeContext;
-        }
-
-        public GenericRepository()
-        {
+            _context = context;
         }
 
         public async Task<T> GetByIdAsync(int id)
         {
-            return await _storeContext.Set<T>().FindAsync(id);
-        }
+            return await _context.Set<T>().FindAsync(id);
+        }     
 
         public async Task<IReadOnlyList<T>> ListAllAsync()
         {
-            return await _storeContext.Set<T>().ToListAsync();
+            return await _context.Set<T>().ToListAsync();
         }
 
         public async Task<T> GetEntityWithSpec(ISpecification<T> spec)
@@ -38,31 +34,30 @@ namespace Infrastructure.Data
             return await ApplySpecification(spec).ToListAsync();
         }
 
-        private IQueryable<T> ApplySpecification(ISpecification<T> spec)
+        public async Task<int> CountAsync(ISpecification<T> spec)
         {
-            return SpecificationEvaluator<T>.GetQuery(_storeContext.Set<T>().AsQueryable(), spec);
+            return await ApplySpecification(spec).CountAsync();
         }
 
-        public Task<int> CountAsync(ISpecification<T> spec)
+        private IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
-            throw new NotImplementedException();
+            return SpecificationEvaluator<T>.GetQuery(_context.Set<T>().AsQueryable(), spec);
         }
 
         public void Add(T entity)
         {
-            _storeContext.Set<T>().Add(entity);
+            _context.Set<T>().Add(entity);
         }
 
         public void Update(T entity)
         {
-            // ef Attach
-            _storeContext.Set<T>().Attach(entity);
-            _storeContext.Entry(entity).State = EntityState.Modified;
+            _context.Set<T>().Attach(entity);
+            _context.Entry(entity).State = EntityState.Modified;
         }
 
         public void Delete(T entity)
         {
-            throw new NotImplementedException();
+            _context.Set<T>().Remove(entity);
         }
     }
 }

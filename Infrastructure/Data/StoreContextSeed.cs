@@ -67,7 +67,7 @@ namespace Infrastructure.Data
                 
                 if (!storeContext.DeliveryMethods.Any())
                 {
-                    var dmData = File.ReadAllText(path + @"/Data/SeedData/delivery.json");
+                    var dmData = File.ReadAllText("../Infrastructure/Data/SeedData/delivery.json");
 
                     var methods = JsonSerializer.Deserialize<List<DeliveryMethod>>(dmData);
 
