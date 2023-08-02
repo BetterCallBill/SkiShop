@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private router: Router, private toastr: ToastrService) {}
+  constructor(private router: Router, private toastr: ToastrService) { }
 
   // To catch error inside the response from the API
   // next: response coming back
@@ -22,7 +22,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       delay(1000),
-      catchError((error) => {
+      catchError(error => {
         if (error) {
           if (error.status === 400) {
             if (error.error.errors) {
@@ -40,9 +40,9 @@ export class ErrorInterceptor implements HttpInterceptor {
           if (error.status === 500) {
             // if its internal error
             const navigationExtras: NavigationExtras = {
-              state: {error: error.error}
+              state: { error: error.error }
             };
-            
+
             this.router.navigateByUrl('/server-error', navigationExtras);
           }
         }
