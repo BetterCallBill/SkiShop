@@ -8,15 +8,15 @@
     <ul class="list-unstyled mb-4">
         <li class="d-flex justify-content-between py-3 border-bottom">
             <strong class="text-muted">Order subtotal</strong>
-            <strong>{{(basketTotal$ | async).subtotal}}</strong>
+            <strong>{{subtotal | async}}</strong>
         </li>
         <li class="d-flex justify-content-between py-3 border-bottom">
             <strong class="text-muted">Shipping and handling</strong>
-            <strong>{{(basketTotal$ | async).shipping}}</strong>
+            <strong>{{shippingPrice | async}}</strong>
         </li>
         <li class="d-flex justify-content-between py-3 border-bottom">
             <strong class="text-muted">Total</strong>
-            <strong>{{(basketTotal$ | async).total}}</strong>
+            <strong>{{total | async}}</strong>
         </li>
     </ul>
 </div>
