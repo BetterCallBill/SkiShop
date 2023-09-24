@@ -108,6 +108,15 @@ export class BasketService {
     );
   }
   
+  createPaymentIntent() {
+    return this.http.post(this.baseUrl + 'payments/' + this.getCurrentBasketValue().id, {})
+      .pipe(
+        map((basket: IBasket) => {
+          this.basketSource.next(basket);
+        })
+      )
+  }
+  
   private _addOrUpdateItem(
     items: IBasketItem[],
     itemToAdd: IBasketItem,
