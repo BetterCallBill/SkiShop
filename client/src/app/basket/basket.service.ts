@@ -16,14 +16,15 @@ export class BasketService {
   private basketTotalSource = new BehaviorSubject<IBasketTotals>(null);
   basket$ = this.basketSource.asObservable();
   basketTotal$ = this.basketTotalSource.asObservable();
-  shipping = 0;
+  shippingPrice = 0;
   
   constructor(private http: HttpClient) {}
 
   setShippingPrice(deliveryMethod: IDeliveryMethod) {
-    this.shipping = deliveryMethod.price;
+    this.shippingPrice = deliveryMethod.price;
     const basket = this.getCurrentBasketValue();
     basket.deliveryMethodId = deliveryMethod.id;
+    basket.shippingPrice = deliveryMethod.price;
     this._calculateTotals();
     this.setBasket(basket);
   }
@@ -32,6 +33,7 @@ export class BasketService {
     return this.http.get<IBasket>(`${this.baseUrl}/basket?id=${id}`).pipe(
       map((basket: IBasket) => {
         this.basketSource.next(basket);
+        this.shippingPrice = basket.shippingPrice;
         this._calculateTotals();
       })
     );
@@ -156,7 +158,7 @@ export class BasketService {
   
   private _calculateTotals() {
     const basket = this.getCurrentBasketValue();
-    const shipping = this.shipping;
+    const shipping = this.shippingPrice;
     const subtotal = basket.items.reduce((a, b) => b.price * b.quantity + a, 0);
     const total = subtotal + shipping;
     this.basketTotalSource.next({ shipping, total, subtotal });
