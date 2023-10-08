@@ -15,23 +15,23 @@ declare var Stripe;
 })
 export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
   @Input() checkoutForm: FormGroup;
-  @ViewChild('cardNumber', {static: true}) cardNumberElement: ElementRef;
-  @ViewChild('cardExpiry', {static: true}) cardExpiryElement: ElementRef;
-  @ViewChild('cardCvc', {static: true}) cardCvcElement: ElementRef;
+  @ViewChild('cardNumber', { static: true }) cardNumberElement: ElementRef;
+  @ViewChild('cardExpiry', { static: true }) cardExpiryElement: ElementRef;
+  @ViewChild('cardCvc', { static: true }) cardCvcElement: ElementRef;
   stripe: any;
   cardNumber: any;
   cardExpiry: any;
   cardCvc: any;
   cardErrors: any;
   cardHandler = this.onChange.bind(this);
-  
+
   constructor(
     private basketService: BasketService,
     private checkoutService: CheckoutService,
     private toastr: ToastrService,
     private router: Router
   ) { }
-  
+
   ngOnDestroy(): void {
     this.cardNumber.destroy();
     this.cardExpiry.destroy();
@@ -41,28 +41,28 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.stripe = Stripe('pk_test_51NgEVWDag3DfvPG60xxfuK4iJ9AGuu9KBYF04yuGwiqPM6SwwUQ6cHnL4r4ijp3BqgvVvlCUFqwvg1Bx1af7m79c005JkLE93d');
     const elements = this.stripe.elements();
-    
+
     this.cardNumber = elements.create('cardNumber');
     this.cardNumber.mount(this.cardNumberElement.nativeElement);
     this.cardNumber.addEventListener('change', this.cardHandler);
-    
+
     this.cardExpiry = elements.create('cardExpiry');
     this.cardExpiry.mount(this.cardExpiryElement.nativeElement);
     this.cardExpiry.addEventListener('change', this.cardHandler);
-    
+
     this.cardCvc = elements.create('cardCvc');
     this.cardCvc.mount(this.cardCvcElement.nativeElement);
     this.cardCvc.addEventListener('change', this.cardHandler);
   }
 
-  onChange({error}) {
+  onChange({ error }) {
     if (error) {
       this.cardErrors = error.message;
     } else {
       this.cardErrors = null;
     }
   }
-  
+
   submitOrder() {
     // get basket value
     const basket = this.basketService.getCurrentBasketValue();
@@ -71,17 +71,33 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
     // create order via service
     this.checkoutService.createOrder(orderToCreate).subscribe((order: IOrder) => {
       this.toastr.success('Order successfully created.');
-      // delete local basket
-      this.basketService.deleteLocalBasket(basket.id);
-      // redirect to payment success page
-      const navigationExtras: NavigationExtras = { state: order };
-      this.router.navigate(['checkout/success'], navigationExtras);
+
+      // submit payment detail to stripe
+      this.stripe.confirmCardPayment(basket.clientSecret, {
+        payment_method: {
+          card: this.cardNumber,
+          billing_details: {
+            name: this.checkoutForm.get('paymentForm').get('nameOnCard').value
+          }
+        }
+      }).then(result => {
+        console.log("result ======> ", result)
+        if (result.paymentIntent) {
+          // delete local basket
+          this.basketService.deleteLocalBasket(basket.id);
+          // redirect to payment success page
+          const navigationExtras: NavigationExtras = { state: order };
+          this.router.navigate(['checkout/success'], navigationExtras);
+        } else {
+          this.toastr.error(result.error.message);
+        }
+      });
     }, error => {
       this.toastr.error(error.message);
       console.log(error);
     })
   }
-  
+
   getOrderToCreate(basket: IBasket): IOrderToCreate {
     return {
       basketId: basket.id,
