@@ -94,7 +94,7 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
 
       if (paymentResult.paymentIntent) {
         // delete local basket
-        this.basketService.deleteLocalBasket(basket.id);
+        this.basketService.deleteBasket(basket);
         // redirect to payment success page
         const navigationExtras: NavigationExtras = { state: createdOrder };
         this.router.navigate(['checkout/success'], navigationExtras);

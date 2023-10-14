@@ -40,7 +40,6 @@ namespace API.Controllers
         {
             // read data from Stripe
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
-
             var stripeEvent = EventUtility.ConstructEvent(json, Request.Headers["Stripe-Signature"], WebhookSecret);
 
             // Handle the event
@@ -49,11 +48,15 @@ namespace API.Controllers
                 // Then define and call a method to handle the successful payment intent.
                 var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
                 _logger.LogInformation("Payment Succeeded: ", paymentIntent.Id);
+                var order = await _paymentService.UpdateOrderPaymentSucceeded(paymentIntent.Id);
+                _logger.LogInformation("Order updated to payment received: ", order.Id);
             }
             else if (stripeEvent.Type == Events.PaymentIntentPaymentFailed)
             {
                 var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
                 _logger.LogError("Payment Failed: ", paymentIntent.Id);
+                var order = await _paymentService.UpdateOrderPaymentFailed(paymentIntent.Id);
+                _logger.LogInformation("Order updated to payment failed: ", order.Id);
             }
 
             return new EmptyResult();
