@@ -9,11 +9,11 @@ import { BreadcrumbService } from 'xng-breadcrumb';
 })
 export class SectionHeaderComponent implements OnInit {
   breadcrumb$: Observable<any[]>;
-  
+
   constructor(private bcService: BreadcrumbService) { }
 
   ngOnInit(): void {
     this.breadcrumb$ = this.bcService.breadcrumbs$;
+    console.log("this.breadcrumb$ ===> ", this.breadcrumb$)
   }
-
 }

@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IBasket, IBasketItem } from '../../models/basket';
-import { Observable } from 'rxjs';
+import { IBasketItem } from '../../models/basket';
 import { BasketService } from 'src/app/basket/basket.service';
 import { IOrderItem } from '../../models/order';
 

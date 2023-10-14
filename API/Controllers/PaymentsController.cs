@@ -11,7 +11,7 @@ namespace API.Controllers
     {
         private readonly IPaymentService _paymentService;
         private readonly ILogger<PaymentsController> _logger;
-        private const string WebhookSecret = "";
+        private const string WebhookSecret = "whsec_eead91ff3e14cd86363729e2e8ff90d6c5d9bc4904278c62444569fe23fd02db";
 
         public PaymentsController(IPaymentService paymentService, ILogger<PaymentsController> logger)
         {
