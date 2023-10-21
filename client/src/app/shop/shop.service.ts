@@ -57,7 +57,7 @@ export class ShopService {
         params,
       })
       .pipe(
-        map((response) => {
+        map(response => {
           this.productCache.set(
             Object.values(this.shopParams).join('-'),
             response.body.data
@@ -107,7 +107,7 @@ export class ShopService {
       return of(this.types);
     }
     return this.http.get<IType[]>(`${this.baseUrl}/products/types`).pipe(
-      map((response) => {
+      map(response => {
         this.types = response;
         return response;
       })

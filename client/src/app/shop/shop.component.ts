@@ -37,9 +37,7 @@ export class ShopComponent implements OnInit {
   }
 
   getProducts(useCache = false) {
-    this.productsSub = this.shopService.getProducts(useCache).subscribe(
-      (response) => {
-        console.log("response ====> ", response)
+    this.productsSub = this.shopService.getProducts(useCache).subscribe(response => {
         this.products = response.data;
         this.totalCount = response.count;
       },
@@ -72,38 +70,50 @@ export class ShopComponent implements OnInit {
   }
 
   onBrandSelected(brandId: number) {
-    this.shopParams.brandId = brandId;
-    this.shopParams.pageNumber = 1;
+    const shopParams = this.shopService.getShopParams();
+    shopParams.brandId = brandId;
+    shopParams.pageNumber = 1;
+    this.shopService.setShopParams(shopParams);
     this.getProducts();
   }
 
   onTypeSelected(typeId: number) {
-    this.shopParams.typeId = typeId;
-    this.shopParams.pageNumber = 1;
+    const shopParams = this.shopService.getShopParams();
+    shopParams.typeId = typeId;
+    shopParams.pageNumber = 1;
+    this.shopService.setShopParams(shopParams);
     this.getProducts();
   }
 
   onSortSelected(sort: string) {
-    this.shopParams.sort = sort;
+    const shopParams = this.shopService.getShopParams();
+    shopParams.sort = sort;
+    this.shopService.setShopParams(shopParams);
     this.getProducts();
   }
 
   onPageChanged(event: any) {
-    if (this.shopParams.pageNumber !== event) {
-      this.shopParams.pageNumber = event;
+    const shopParams = this.shopService.getShopParams();
+    if (shopParams.pageNumber !== event) {
+      shopParams.pageNumber = event;
+      this.shopService.setShopParams(shopParams);
       this.getProducts();
     }
   }
 
   // Search
   onSearch() {
-    this.shopParams.search = this.searchTerm.nativeElement.value;
+    const shopParams = this.shopService.getShopParams();
+    shopParams.search = this.searchTerm.nativeElement.value;
+    shopParams.pageNumber = 1;
+    this.shopService.setShopParams(shopParams);
     this.getProducts();
   }
 
   onReset() {
     this.searchTerm.nativeElement.value = '';
-    this.shopParams = new ShopParams();
+    const shopParams = new ShopParams();
+    this.shopService.setShopParams(shopParams);
     this.getProducts();
   }
 }
