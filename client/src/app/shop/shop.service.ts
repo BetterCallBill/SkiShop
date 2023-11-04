@@ -57,6 +57,7 @@ export class ShopService {
         params,
       })
       .pipe(
+        // store the response to cache
         map(response => {
           this.productCache.set(
             Object.values(this.shopParams).join('-'),
@@ -80,7 +81,7 @@ export class ShopService {
     // const product = this.products.find((p) => p.id === id);
     let product: IProduct;
     this.productCache.forEach((products: IProduct[]) => {
-      product = products.find((p) => p.id == id);
+      product = products.find(p => p.id == id);
     });
 
     if (product) {
@@ -95,7 +96,7 @@ export class ShopService {
       return of(this.brands);
     }
     return this.http.get<IBrand[]>(`${this.baseUrl}/products/brands`).pipe(
-      map((response) => {
+      map(response => {
         this.brands = response;
         return response;
       })
