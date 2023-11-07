@@ -11,12 +11,16 @@ namespace API.Controllers
     {
         private readonly IPaymentService _paymentService;
         private readonly ILogger<PaymentsController> _logger;
-        private const string WebhookSecret = "whsec_eead91ff3e14cd86363729e2e8ff90d6c5d9bc4904278c62444569fe23fd02db";
+        private readonly string _webhookSecret;
 
-        public PaymentsController(IPaymentService paymentService, ILogger<PaymentsController> logger)
+        public PaymentsController(
+            IPaymentService paymentService, 
+            ILogger<PaymentsController> logger,
+            IConfiguration config)
         {
             _paymentService = paymentService;
             _logger = logger;
+            _webhookSecret = config.GetSection("StripeSettings:WebhookSecret").Value;
         }
 
         [Authorize]
@@ -40,7 +44,7 @@ namespace API.Controllers
         {
             // read data from Stripe
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
-            var stripeEvent = EventUtility.ConstructEvent(json, Request.Headers["Stripe-Signature"], WebhookSecret);
+            var stripeEvent = EventUtility.ConstructEvent(json, Request.Headers["Stripe-Signature"], _webhookSecret);
 
             // Handle the event
             if (stripeEvent.Type == Events.PaymentIntentSucceeded)

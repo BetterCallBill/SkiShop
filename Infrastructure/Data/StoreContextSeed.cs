@@ -17,7 +17,7 @@ namespace Infrastructure.Data
                 if (!storeContext.ProductBrands.Any())
                 {
                     // Read JSON data file
-                    var brandsData = File.ReadAllText("../Infrastructure/Data/SeedData/brands.json");
+                    var brandsData = File.ReadAllText(path + @"/Data/SeedData/brands.json");
 
                     // Convert string to Objects
                     var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandsData);
@@ -34,7 +34,7 @@ namespace Infrastructure.Data
                 if (!storeContext.ProductTypes.Any())
                 {
                     // Read JSON data file
-                    var typesData = File.ReadAllText("../Infrastructure/Data/SeedData/types.json");
+                    var typesData = File.ReadAllText(path + @"/Data/SeedData/types.json");
 
                     // Convert string to Objects
                     var types = JsonSerializer.Deserialize<List<ProductType>>(typesData);
@@ -51,7 +51,7 @@ namespace Infrastructure.Data
                 if (!storeContext.Products.Any())
                 {
                     // Read JSON data file
-                    var productsData = File.ReadAllText("../Infrastructure/Data/SeedData/products.json");
+                    var productsData = File.ReadAllText(path + @"/Data/SeedData/products.json");
 
                     // Convert string to Objects
                     var products = JsonSerializer.Deserialize<List<Product>>(productsData);
@@ -67,7 +67,7 @@ namespace Infrastructure.Data
                 
                 if (!storeContext.DeliveryMethods.Any())
                 {
-                    var dmData = File.ReadAllText("../Infrastructure/Data/SeedData/delivery.json");
+                    var dmData = File.ReadAllText(path + @"/Data/SeedData/delivery.json");
 
                     var methods = JsonSerializer.Deserialize<List<DeliveryMethod>>(dmData);
 
