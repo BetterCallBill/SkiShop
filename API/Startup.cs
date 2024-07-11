@@ -24,12 +24,12 @@ namespace API
             services.AddAutoMapper(typeof(MappingProfiles));
             services.AddControllers();
             services.AddDbContext<StoreContext>(x =>
-                x.UseNpgsql(_configuration.GetConnectionString("DefaultConnection"))
+                x.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"))
             );
 
             // Identity database
             services.AddDbContext<AppIdentityDbContext>(x =>
-                x.UseNpgsql(_configuration.GetConnectionString("IdentityConnection"))
+                x.UseSqlServer(_configuration.GetConnectionString("IdentityConnection"))
             );
 
             // Redis
@@ -75,6 +75,8 @@ namespace API
             // UseAuthentication before UseAuthorization
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseSwaggerDocument();
 
             app.UseEndpoints(endpoints =>

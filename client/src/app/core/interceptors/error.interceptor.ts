@@ -5,10 +5,11 @@ import {
   HttpEvent,
   HttpInterceptor,
 } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { identity, Observable, throwError } from 'rxjs';
 import { NavigationExtras, Router } from '@angular/router';
 import { catchError, delay } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -21,7 +22,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
-      delay(1000),
+      environment.production ? identity : delay(1000), 
       catchError(error => {
         if (error) {
           if (error.status === 400) {
